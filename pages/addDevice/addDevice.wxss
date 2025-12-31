@@ -1,0 +1,256 @@
+/* pages/addDevice/addDevice.wxss */
+page {
+  background-color: #000000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+}
+
+.ios-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; /* 防止容器内容溢出 */
+}
+
+/* --- 导航栏 --- */
+.nav-bar {
+  padding-top: 100rpx; /* 适配胶囊 */
+  padding-bottom: 20rpx;
+  padding-left: 32rpx;
+  padding-right: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  z-index: 10;
+  flex-shrink: 0; /* 固定导航栏高度 */
+}
+.cancel-text { font-size: 32rpx; color: #0A84FF; }
+.nav-title { font-size: 34rpx; font-weight: 600; }
+
+/* --- 搜索框 --- */
+.search-section {
+  padding: 0 32rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  flex-shrink: 0; /* 固定搜索框高度 */
+}
+
+.search-bar {
+  background-color: #1C1C1E;
+  height: 72rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1); /* 轻微阴影 */
+}
+
+.search-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+  opacity: 0.5;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #fff;
+  height: 100%;
+  background: none; /* 移除默认背景 */
+  border: none; /* 移除默认边框 */
+  outline: none; /* 移除轮廓 */
+}
+.ph-style { color: #636366; }
+
+.clear-btn {
+  width: 40rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  margin-left: 10rpx;
+}
+.clear-btn text {
+  font-size: 24rpx; /* 放大叉号 */
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+/* --- 列表头部 & 状态指示 --- */
+.section-header { 
+  padding: 10rpx 32rpx 16rpx; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  flex-shrink: 0; /* 固定头部高度 */
+}
+.section-header text { font-size: 24rpx; color: #666; text-transform: uppercase; }
+
+.scan-status {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #8E8E93;
+}
+
+/* 小菊花 Loading 动画 */
+.spinner {
+  width: 24rpx;
+  height: 24rpx;
+  border: 3rpx solid #666;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10rpx;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- 设备列表容器 & 滚动 --- */
+.device-list-container {
+  flex: 1; /* 让这个容器填满剩余空间 */
+  overflow: hidden; /* 关键：防止 scroll-view 撑大 */
+  padding: 0 32rpx; /* 列表内容左侧留白 */
+}
+
+.device-list {
+  height: 100%; /* 关键：让 scroll-view 高度适应父容器 */
+}
+
+/* --- 列表项 --- */
+.device-item {
+  display: flex;
+  align-items: center;
+  background: #1C1C1E;
+  padding: 24rpx 24rpx;
+  border-bottom: 1px solid #2C2C2E;
+  height: 140rpx;
+  box-sizing: border-box;
+  transition: background 0.2s ease; /* 平滑过渡 */
+}
+
+.device-item:first-child { border-top-left-radius: 20rpx; border-top-right-radius: 20rpx; }
+.device-item:last-child { border-bottom-left-radius: 20rpx; border-bottom-right-radius: 20rpx; border-bottom: none; }
+.item-hover { background: #2C2C2E; }
+
+.device-icon-box {
+  width: 80rpx;
+  height: 80rpx;
+  background: #2C2C2E;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0; /* 防止被压缩 */
+}
+.bt-icon { color: #0A84FF; font-size: 40rpx; font-weight: 500;} /* 调整图标样式 */
+
+.device-info {
+  flex: 1; /* 占据剩余空间 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden; /* 确保内容不溢出 */
+}
+
+/* 主标题：设备名称 */
+.main-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 10rpx; /* 减小间距 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block; /* 确保 text 元素可以表现 block 属性 */
+}
+
+/* 副标题行 */
+.sub-row {
+  display: flex;
+  align-items: center;
+  color: #8E8E93;
+  font-size: 24rpx;
+  white-space: nowrap; /* 防止换行 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 设备类型 */
+.meta-tag {
+  color: #0A84FF; 
+  background: rgba(10, 132, 255, 0.1); /* 添加背景，使其更像标签 */
+  padding: 2rpx 8rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx; /* 缩小字号 */
+  margin-right: 12rpx; /* 调整间距 */
+}
+
+/* MAC 地址 */
+.mac-addr {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 22rpx;
+  letter-spacing: 0.5rpx;
+  color: #FFFFFF; /* MAC 地址用白色，更清晰 */
+}
+
+/* 分隔符 */
+.divider {
+  margin: 0 10rpx; /* 减小间距 */
+  color: #444;
+  font-size: 20rpx;
+}
+
+/* 信号格样式 */
+.signal-box {
+  display: flex;
+  align-items: flex-end;
+  height: 20rpx;
+  gap: 3rpx;
+  margin-left: 10rpx; /* 和 MAC 地址留点空隙 */
+}
+
+.bar {
+  width: 5rpx;
+  background: #3a3a3c;
+  border-radius: 2rpx;
+}
+.bar:nth-child(1) { height: 40%; }
+.bar:nth-child(2) { height: 60%; }
+.bar:nth-child(3) { height: 80%; }
+.bar:nth-child(4) { height: 100%; }
+
+/* 激活信号格颜色 */
+.bar.active {
+  background: #32d74b; /* 绿色 */
+}
+
+/* 连接按钮 */
+.connect-btn {
+  background: #0A84FF; /* 蓝色按钮 */
+  color: #FFFFFF; /* 白色文字 */
+  font-size: 26rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 30rpx;
+  font-weight: 600;
+  margin-left: 20rpx;
+  flex-shrink: 0;
+  box-shadow: 0 2rpx 6rpx rgba(10, 132, 255, 0.3); /* 添加按钮阴影 */
+}
+.connect-btn:active {
+  opacity: 0.8; /* 按下态 */
+}
+
+/* 空状态 */
+.empty-list {
+  text-align: center;
+  padding-top: 80rpx; /* 增加上边距 */
+  font-size: 28rpx;
+  color: #666;
+}

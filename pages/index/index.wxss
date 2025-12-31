@@ -1,0 +1,205 @@
+/* index.wxss */
+
+/* 全局变量定义 (模拟 iOS 深色模式) */
+page {
+  --ios-bg: #000000;
+  --ios-card-bg: #1C1C1E; /* 次级背景色 */
+  --ios-card-active: #2C2C2E; /* 激活态背景 */
+  --ios-text-primary: #FFFFFF;
+  --ios-text-secondary: #8E8E93; /* 系统灰 */
+  --ios-blue: #0A84FF;
+  --ios-corner-radius: 32rpx; /* 大圆角 */
+  
+  background-color: var(--ios-bg);
+  color: var(--ios-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.ios-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 32rpx; /* iOS 标准边距 */
+  box-sizing: border-box;
+}
+
+/* --- 顶部导航栏 (Large Title) --- */
+.nav-header {
+  padding-top: 100rpx; /* 避开胶囊区 */
+  padding-bottom: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20rpx;
+}
+
+.nav-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-text {
+  font-size: 26rpx;
+  color: var(--ios-text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 4rpx;
+}
+
+.large-title {
+  font-size: 68rpx;
+  font-weight: 700;
+  letter-spacing: -1rpx; /* 紧凑字间距 */
+  line-height: 1.1;
+}
+
+.add-btn-wrapper {
+  width: 72rpx;
+  height: 72rpx;
+  background: rgba(255, 255, 255, 0.15); /* 毛玻璃背景 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px); /* 仅在支持的设备有效 */
+  margin-bottom: 10rpx; /* 对齐大标题底部 */
+}
+
+.add-btn-wrapper:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.iconfont-plus {
+  font-size: 40rpx;
+  color: var(--ios-blue);
+  font-weight: 300;
+  margin-bottom: 6rpx;
+}
+
+/* --- 列表布局 --- */
+.content-scroll {
+  flex: 1;
+}
+
+.grid-layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* --- iOS 风格卡片 --- */
+.ios-card {
+  width: 48%; /* 双列 */
+  aspect-ratio: 1 / 1; /* 方形块 */
+  background: var(--ios-card-bg);
+  border-radius: var(--ios-corner-radius);
+  padding: 24rpx;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* 开启状态：背景稍微变亮或保持深色但图标高亮 
+   iOS HomeKit 如果开启，整个卡片通常变白/变亮。
+   考虑到 ARGB，我们保持深色，但改变边框或辉光 */
+.ios-card.active {
+  background: #2C2C2E; /* 稍微亮一点的灰 */
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.5); /* 深度感 */
+}
+
+/* 按下缩放效果 (Haptic effect) */
+.card-hover {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
+.placeholder {
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* 卡片内部元素 */
+.icon-circle {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.status-dot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.2; /* 淡淡的背景色 */
+  transform: scale(1.2);
+}
+
+.text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--ios-text-primary);
+  margin-bottom: 6rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-state {
+  font-size: 24rpx;
+  color: var(--ios-text-secondary);
+}
+
+/* --- 独立开关 (仿 iOS Toggle) --- */
+.switch-area {
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  padding: 10rpx; /* 增加触摸面积 */
+}
+
+.ios-switch {
+  width: 60rpx;
+  height: 36rpx;
+  background: rgba(120, 120, 128, 0.32); /* iOS 关闭槽色 */
+  border-radius: 36rpx;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.ios-switch::after {
+  content: '';
+  position: absolute;
+  width: 32rpx;
+  height: 32rpx;
+  background: #fff;
+  border-radius: 50%;
+  top: 2rpx;
+  left: 2rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.2);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* iOS 弹簧动画曲线 */
+}
+
+.ios-switch.on {
+  background: #30D158; /* iOS 系统绿 */
+}
+
+.ios-switch.on::after {
+  transform: translateX(24rpx);
+}

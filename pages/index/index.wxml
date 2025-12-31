@@ -1,0 +1,69 @@
+<!-- index.wxml -->
+<view class="ios-container">
+  
+  <!-- 顶部导航区 (模拟 iOS Large Title) -->
+  <view class="nav-header">
+    <view class="nav-left">
+      <text class="date-text">我的家</text> <!-- 副标题/日期位 -->
+      <text class="large-title">设备</text>
+    </view>
+    
+    <!-- 右上角添加按钮 (圆形毛玻璃) -->
+    <view class="add-btn-wrapper" bindtap="onAddDevice">
+      <text class="iconfont-plus">+</text>
+    </view>
+  </view>
+
+  <!-- 设备列表区域 -->
+  <scroll-view scroll-y class="content-scroll" enable-back-to-top>
+    <view class="grid-layout">
+      
+      <block wx:for="{{deviceList}}" wx:key="id">
+        <!-- 
+           bindtap: 点击进入详情
+           bindlongpress: 长按删除
+           hover-class: 模拟按下时的缩放效果 
+        -->
+        <view 
+          class="ios-card {{item.status ? 'active' : ''}}" 
+          hover-class="card-hover"
+          hover-stay-time="100"
+          bindtap="onDeviceTap" 
+          bindlongpress="onDeviceLongPress"
+          data-index="{{index}}"
+          data-id="{{item.id}}"
+        >
+          <!-- 卡片内容容器 -->
+          <view class="card-content">
+            <!-- 图标/颜色区 -->
+            <view class="icon-circle" style="background: {{item.status ? '#fff' : 'rgba(255,255,255,0.1)'}}">
+              <!-- 根据状态改变图标颜色 -->
+              <view class="status-dot" style="background: {{item.status ? item.color : 'transparent'}}"></view>
+              <!-- 可以在这里放 image 图标 -->
+              <text style="color: {{item.status ? item.color : '#8E8E93'}};">💡</text>
+            </view>
+
+            <!-- 文字信息 -->
+            <view class="text-group">
+              <text class="card-name">{{item.name}}</text>
+              <text class="card-state">{{item.status ? '已开启' : '关闭'}}</text>
+            </view>
+          </view>
+          
+          <!-- 单独的开关触控区 (右上角) -->
+          <!-- 实际上 iOS HomeKit 点击整个卡片是开关，长按是详情。
+               这里为了兼顾你的需求，我们做个折中：整个卡片进详情，独立开关按钮 -->
+          <view class="switch-area" catchtap="onSwitchTap" data-index="{{index}}">
+             <view class="ios-switch {{item.status ? 'on' : ''}}"></view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 占位符保持布局整齐 -->
+      <view class="ios-card placeholder" wx:if="{{deviceList.length % 2 !== 0}}"></view>
+
+    </view>
+    <!-- 底部留白 -->
+    <view style="height: 120rpx;"></view>
+  </scroll-view>
+</view>

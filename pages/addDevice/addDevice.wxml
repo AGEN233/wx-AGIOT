@@ -1,0 +1,80 @@
+  <!-- pages/addDevice/addDevice.wxml -->
+  <view class="ios-container">
+
+    <!-- 1. 导航栏 -->
+    <view class="nav-bar">
+      <navigator open-type="navigateBack" class="cancel-text">取消</navigator>
+      <text class="nav-title">添加你的智能设备</text>
+      <view style="width: 60rpx;"></view>
+    </view>
+
+    <!-- 搜索框 -->
+    <view class="search-section">
+      <view class="search-bar">
+        <text class="search-icon">🔍</text>
+        <input class="search-input" placeholder="搜索设备名称或 MAC" placeholder-class="ph-style" bindinput="onSearchInput"
+          value="{{searchText}}" confirm-type="search" bindconfirm="onSearchConfirm" />
+        <view class="clear-btn" catchtap="onClearInput" wx:if="{{searchText.length > 0}}">
+          <text>✕</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 列表标题 & 状态 -->
+    <view class="section-header">
+      <text>搜索结果 ({{showDevices.length}})</text>
+      <view class="scan-status">
+        <block wx:if="{{isScanning}}">
+          <view class="spinner"></view>
+          <text>搜索中...</text>
+        </block>
+        <block wx:else>
+          <text>已停止</text>
+        </block>
+      </view>
+    </view>
+
+    <!-- 设备列表 -->
+    <view class="device-list-container">
+      <scroll-view scroll-y class="device-list">
+        <block wx:if="{{showDevices.length > 0}}">
+          <block wx:for="{{showDevices}}" wx:key="deviceId">
+            <view class="device-item" bindtap="ble_iot_onconnect" data-id="{{item.deviceId}}" hover-class="item-hover">
+
+              <view class="device-icon-box" wx:for="{{showDevices}}" wx:key="deviceId">
+                <text class="bt-icon">{{item.customIcon || '⚡️'}}</text>
+              </view>
+
+              <view class="device-info">
+                <text class="main-title">{{item.name || '未知设备'}}</text>
+                <view class="sub-row">
+                  <text class="meta-tag">{{item.customType || '未知'}}</text>
+                  <text class="divider">|</text>
+                  <text class="mac-addr">{{item.deviceId}}</text>
+                  <text class="divider">|</text>
+
+                  <view class="signal-box">
+                    <view class="bar {{item.RSSI > -85 ? 'active' : ''}}"></view>
+                    <view class="bar {{item.RSSI > -75 ? 'active' : ''}}"></view>
+                    <view class="bar {{item.RSSI > -60 ? 'active' : ''}}"></view>
+                    <view class="bar {{item.RSSI > -50 ? 'active' : ''}}"></view>
+                  </view>
+                </view>
+              </view>
+
+              <view class="connect-btn">连接</view>
+            </view>
+          </block>
+        </block>
+
+        <!-- 空状态 -->
+        <view wx:else class="empty-list">
+          <text wx:if="{{searchText}}">未找到“{{searchText}}”相关的设备</text>
+          <text wx:else>{{ isScanning ? '正在搜寻附近设备...' : '蓝牙已关闭，请开启蓝牙并重试' }}</text>
+        </view>
+
+        <!-- 底部留白 -->
+        <view style="height: 80rpx;"></view>
+      </scroll-view>
+    </view>
+  </view>
