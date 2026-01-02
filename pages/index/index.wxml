@@ -4,7 +4,7 @@
   <!-- 顶部导航区 (模拟 iOS Large Title) -->
   <view class="nav-header">
     <view class="nav-left">
-      <text class="date-text">我的家</text> <!-- 副标题/日期位 -->
+      <text class="date-text">我的</text> <!-- 副标题/日期位 -->
       <text class="large-title">设备</text>
     </view>
     

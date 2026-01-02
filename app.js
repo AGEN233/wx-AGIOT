@@ -1,15 +1,22 @@
 // app.js
+import bleService from './utils/bleService.js';
 App({
   onLaunch() {
-    // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    console.log('App Launching...');
+        bleService.setGlobalDataCallback((parsed) => {
+            console.log('====== [App全局监控] ======');
+            console.log('CMD:', parsed.cmd.toString(16));
+            console.log('Data:', parsed.data);
+            console.log('==========================');
 
-    // 登录
+            // 你可以在这里做全局逻辑，例如：
+            // 1. 写入本地日志文件
+            // 2. 检测到设备报警 CMD，弹窗提示
+            // 3. 更新全局状态 Store
+        });
+        
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
   },
